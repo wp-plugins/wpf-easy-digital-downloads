@@ -153,20 +153,25 @@ class WPF_Common {
 	public function unmask( $response ) {
 
 		list( $iv, $data_decoded ) = array_map( 'base64_decode', explode( '-', base64_decode( $response ), 2 ) );
-		$unmasked = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_128, md5( $this->secret_key ), $data_decoded, MCRYPT_MODE_CBC, $iv ), "\0\4" );
-		$hash = substr( $unmasked, -32 );
-		$unmasked = substr( $unmasked, 0, -32 );
+		
+		if ( $iv && $data_decoded ) {
+		
+			$unmasked = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_128, md5( $this->secret_key ), $data_decoded, MCRYPT_MODE_CBC, $iv ), "\0\4" );
+			$hash = substr( $unmasked, -32 );
+			$unmasked = substr( $unmasked, 0, -32 );
 
-		if ( md5( $unmasked ) == $hash ) {
+			if ( md5( $unmasked ) == $hash ) {
 
-			return json_decode( $unmasked );
+				return json_decode( $unmasked );
 
-		} else {
+			} else {
 
-			return new WP_Error( 'wpfortify_unmask', __( 'Invalid response from masked data.', $this->slug ) );
+				return new WP_Error( 'wpfortify_unmask', __( 'Invalid response from masked data.', $this->slug ) );
+
+			}
 
 		}
-
+		
 	}
 
 }

@@ -3,7 +3,7 @@
 Plugin Name: wpFortify for Easy Digital Downloads
 Plugin URI: http://wordpress.org/plugins/wpf-easy-digital-downloads/
 Description: wpFortify provides a hosted SSL checkout page for Stripe payments. A free wpFortify account is required for this plugin to work.
-Version: 0.1.0
+Version: 0.2.0
 Author: wpFortify
 Author URI: https://wpfortify.com
 License: GNU General Public License v3.0
@@ -109,15 +109,39 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 				array(
 					'id'    => 'wpf_custom_checkout',
 					'name'  => __( 'Custom Checkout', $this->slug ),
-					'desc'  => __( 'Optional: Enter the URL to your custom checkout page. Example:', $this->slug ) . '<code>https://example.wpfortify.com/</code>',
+					'desc'  => __( 'Optional: Enter the URL to your custom checkout page. Example: <code>https://example.wpfortify.com/</code>', $this->slug ),
 					'type'  => 'text'
 				),
 				array(
 					'id'    => 'wpf_checkout_image',
 					'name'  => __( 'Checkout Image', $this->slug ),
-					'desc'  => __( 'Optional: Enter the URL to the secure image from your wpFortify account. Example:', $this->slug ) . '<code>https://wpfortify.com/media/example.png</code>',
+					'desc'  => __( 'Optional: Enter the URL to the secure image from your wpFortify account. Example: <code>https://wpfortify.com/media/example.png</code>', $this->slug ),
 					'type'  => 'text'
-				)
+				),
+				array(
+					'id'    => 'wpf_title',
+					'name'  => __( 'Checkout Title', $this->slug ),
+					'desc'  => __( 'Optional: Enter a new title. Default is "', $this->slug ) . get_bloginfo() . '".' ,
+					'type'  => 'text'
+				),
+				array(
+					'id'    => 'wpf_description',
+					'name'  => __( 'Checkout Description', $this->slug ),
+					'desc'  => __( 'Optional: Enter a new description. Default is "Order #123 ($456)". Available filters: <code>{{order_id}} {{order_amount}}</code>. Example: <code>Order #{{order_id}} (${{order_amount}}</code>', $this->slug ),
+					'type'  => 'text'
+				),
+				array(
+					'id'    => 'wpf_save_card',
+					'name'  => __( 'Checkout Save Card', $this->slug ),
+					'desc'  => __( 'Optional: Enter new save card text. Default is "Save this card for future purchases".', $this->slug ),
+					'type'  => 'text'
+				),
+				array(
+					'id'    => 'wpf_button',
+					'name'  => __( 'Checkout Button', $this->slug ),
+					'desc'  => __( 'Optional: Enter new button text. Default is "Pay with Card". Available filters: <code>{{order_id}} {{order_amount}}</code>. Example: <code>Pay with Card (${{order_amount}})</code>', $this->slug ),
+					'type'  => 'text'
+				),				
 			);
 
 			return array_merge( $settings, $wpf_settings );
@@ -164,13 +188,32 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 
 				$testmode    = $edd_options['test_mode'] === '1' ? true : false;
 				$site_url    = get_bloginfo( 'url' );
+				$site_title  = get_bloginfo();
+				$description = sprintf( '%s %s ($%s)', __( 'Order #', 'wpf-woocommerce' ), $order_id, $order->order_total );
+				$save_card   = __( 'Save this card for future purchases', 'wpf-woocommercee' );
+				$button      = __( 'Pay with Card', 'wpf-woocommerce' );
 
+				if ( $edd_options['wpf_title'] ) {
+					$site_title = $edd_options['wpf_title'];
+				}
+				if ( $edd_options['wpf_description'] ) {
+					$description = str_replace( array( '{{order_id}}', '{{order_amount}}' ), array( $payment, $purchase_data['price'] ), $edd_options['wpf_description'] );
+				}
+				if ( $edd_options['wpf_save_card'] ) {
+					$save_card = $edd_options['wpf_save_card'];
+				}
+				if ( $edd_options['wpf_button'] ) {
+					$button = str_replace( array( '{{order_id}}', '{{order_amount}}' ), array( $payment, $purchase_data['price'] ), $edd_options['wpf_button'] );
+				}
+				
+				
+				
 				// Data for wpFortify
 				$wpf_charge = array (
 					'wpf_charge' => array(
 						'plugin'       => $this->slug,
 						'action'       => 'charge_card',
-						'site_title'   => get_bloginfo(),
+						'site_title'   => $site_title,
 						'site_url'     => $site_url,
 						'listen_url'   => $site_url . '/?' . $this->slug . '=callback',
 						'return_url'   => get_permalink( $edd_options['success_page'] ),
@@ -180,7 +223,9 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 						'card_id'      => '',
 						'email'        => $purchase_data['user_email'],
 						'amount'       => $purchase_data['price'],
-						'description'  => sprintf( 'Order #%s', $payment ),
+						'description'  => $description,
+						'save_card'    => $save_card,
+						'button'       => $button,
 						'currency'     => edd_get_currency(),
 						'testmode'     => $testmode,
 						'capture'      => true,
