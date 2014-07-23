@@ -1,10 +1,10 @@
-=== wpFortify for Easy Digital Downloads ===
+﻿=== wpFortify for Easy Digital Downloads ===
 Contributors: rossdev
 Tags: stripe, payment, payments, credit cards, online payment, gateway, edd, easy, digital, downloads, easy digital downloads
 Donate link: https://wpfortify.com
 Requires at least: 3.9
 Tested up to: 3.9.1
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -82,6 +82,10 @@ Sorry we currently don't support subscriptions, but it's on the short list to ad
 3. wpFortify default checkout page
 
 == Changelog ==
+= 0.2.1 =
+* Fix: Corrected default description error.
+* Fix: Corrected identifiers for translate strings.
+ 
 = 0.2.0 =
 * Feature: Added new custom checkout text for title.
 * Feature: Added new custom checkout text for description.
@@ -94,5 +98,5 @@ Sorry we currently don't support subscriptions, but it's on the short list to ad
 
 == Upgrade Notice ==
 
-= 0.2.0 =
+= 0.2.1 =
 The method for displaying text on the checkout screen has changed. After update please review the checkout settings.
