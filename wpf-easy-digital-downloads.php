@@ -3,7 +3,7 @@
 Plugin Name: wpFortify for Easy Digital Downloads
 Plugin URI: http://wordpress.org/plugins/wpf-easy-digital-downloads/
 Description: wpFortify provides a hosted SSL checkout page for Stripe payments. A free wpFortify account is required for this plugin to work.
-Version: 0.2.1
+Version: 0.2.2
 Author: wpFortify
 Author URI: https://wpfortify.com
 License: GNU General Public License v3.0
@@ -131,12 +131,6 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 					'type'  => 'text'
 				),
 				array(
-					'id'    => 'wpf_save_card',
-					'name'  => __( 'Checkout Save Card', $this->slug ),
-					'desc'  => __( 'Optional: Enter new save card text. Default is "Save this card for future purchases".', $this->slug ),
-					'type'  => 'text'
-				),
-				array(
 					'id'    => 'wpf_button',
 					'name'  => __( 'Checkout Button', $this->slug ),
 					'desc'  => __( 'Optional: Enter new button text. Default is "Pay with Card". Available filters: <code>{{order_id}} {{order_amount}}</code>. Example: <code>Pay with Card (${{order_amount}})</code>', $this->slug ),
@@ -190,7 +184,6 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 				$site_url    = get_bloginfo( 'url' );
 				$site_title  = get_bloginfo();
 				$description = sprintf( '%s %s ($%s)', __( 'Order #', $this->slug ), $payment, $purchase_data['price'] );
-				$save_card   = __( 'Save this card for future purchases', $this->slug );
 				$button      = __( 'Pay with Card', $this->slug );
 
 				if ( $edd_options['wpf_title'] ) {
@@ -202,12 +195,6 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 				if ( $edd_options['wpf_description'] ) {
 					
 					$description = str_replace( array( '{{order_id}}', '{{order_amount}}' ), array( $payment, $purchase_data['price'] ), $edd_options['wpf_description'] );
-				
-				}
-				
-				if ( $edd_options['wpf_save_card'] ) {
-					
-					$save_card = $edd_options['wpf_save_card'];
 				
 				}
 				
@@ -233,7 +220,6 @@ if( class_exists( 'Easy_Digital_Downloads' ) ) {
 						'email'        => $purchase_data['user_email'],
 						'amount'       => $purchase_data['price'],
 						'description'  => $description,
-						'save_card'    => $save_card,
 						'button'       => $button,
 						'currency'     => edd_get_currency(),
 						'testmode'     => $testmode,

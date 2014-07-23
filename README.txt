@@ -4,7 +4,7 @@ Tags: stripe, payment, payments, credit cards, online payment, gateway, edd, eas
 Donate link: https://wpfortify.com
 Requires at least: 3.9
 Tested up to: 3.9.1
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -82,6 +82,9 @@ Sorry we currently don't support subscriptions, but it's on the short list to ad
 3. wpFortify default checkout page
 
 == Changelog ==
+= 0.2.2 =
+* Fix: Removed save card option since it's currently not an option.
+
 = 0.2.1 =
 * Fix: Corrected default description error.
 * Fix: Corrected identifiers for translate strings.
@@ -98,5 +101,5 @@ Sorry we currently don't support subscriptions, but it's on the short list to ad
 
 == Upgrade Notice ==
 
-= 0.2.1 =
+= 0.2.2 =
 The method for displaying text on the checkout screen has changed. After update please review the checkout settings.
