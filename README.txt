@@ -3,7 +3,7 @@ Contributors: rossdev
 Tags: stripe, payment, payments, credit cards, online payment, gateway, edd, easy, digital, downloads, easy digital downloads
 Donate link: https://wpfortify.com
 Requires at least: 3.9
-Tested up to: 4.1
+Tested up to: 4.2.2
 Stable tag: 0.2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
