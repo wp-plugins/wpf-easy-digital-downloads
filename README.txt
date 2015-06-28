@@ -5,8 +5,8 @@ Donate link: https://wpfortify.com
 Requires at least: 3.9
 Tested up to: 4.2.2
 Stable tag: 0.2.2
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: GPLv2+
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Start accepting payments now with Stripe! Fast, easy and secure with hosted SSL checkout pages.
 
