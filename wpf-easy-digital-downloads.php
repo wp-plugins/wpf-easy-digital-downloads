@@ -6,8 +6,8 @@ Description: wpFortify provides a hosted SSL checkout page for Stripe payments. 
 Version: 0.2.2
 Author: wpFortify
 Author URI: https://wpfortify.com
-License: GNU General Public License v3.0
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: GPLv2+
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 */
 
